@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="حاسبة مبسطة لمقارنة سعر المنتج عند السداد المباشر مع إجمالي السعر والدفعات عبر آجل باي.">
+  <title>حاسبة آجل باي | قارن قبل أن تقرر</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="العودة إلى بداية الصفحة">
+      <span class="brand-mark">آ</span>
+      <span>آجل باي</span>
+    </a>
+    <a class="header-link" href="#about">عن المشروع</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">قرار أوضح قبل الشراء</span>
+        <h1>قارن بين السداد المباشر والسداد عبر آجل باي</h1>
+        <p>أدخل سعر المنتج لتعرف إجمالي السعر عبر آجل باي، قيمة الفرق، ومقدار كل دفعة بشكل فوري.</p>
+        <div class="trust-row" aria-label="مزايا الحاسبة">
+          <span>حساب فوري</span>
+          <span>نتيجة واضحة</span>
+          <span>بدون تسجيل</span>
+        </div>
+      </div>
+
+      <section class="calculator-card" aria-labelledby="calculator-title">
+        <div class="card-heading">
+          <div>
+            <p class="section-label">حاسبة المقارنة</p>
+            <h2 id="calculator-title">كم سيكون الفرق؟</h2>
+          </div>
+          <span class="status-dot" title="الحاسبة جاهزة"></span>
+        </div>
+
+        <form id="calculator-form">
+          <label for="cash-price">سعر المنتج عند السداد المباشر</label>
+          <div class="input-wrap">
+            <input id="cash-price" type="number" inputmode="decimal" min="1" step="0.01" placeholder="مثال: 1000" required>
+            <span>ر.س</span>
+          </div>
+
+          <div class="settings-row">
+            <div>
+              <label for="markup-rate">نسبة عمولة آجل باي</label>
+              <div class="input-wrap compact">
+                <input id="markup-rate" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" value="20" required>
+                <span>%</span>
+              </div>
+            </div>
+            <div>
+              <label for="installments">عدد الدفعات</label>
+              <select id="installments">
+                <option value="2">دفعتان</option>
+                <option value="3">3 دفعات</option>
+                <option value="4" selected>4 دفعات</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit">احسب المقارنة</button>
+          <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
+        </form>
+      </section>
+    </section>
+
+    <section class="results-section" id="results" aria-live="polite" hidden>
+      <div class="section-heading">
+        <span class="eyebrow">النتيجة</span>
+        <h2>مقارنة واضحة بين الخيارين</h2>
+      </div>
+
+      <div class="comparison-grid">
+        <article class="result-card cash-card">
+          <span class="result-tag">السداد المباشر</span>
+          <h3>قيمة المنتج</h3>
+          <p class="price" id="cash-result">0 ر.س</p>
+          <p class="result-note">دفعة واحدة بالقيمة الأساسية للمنتج.</p>
+        </article>
+
+        <article class="result-card ajel-card">
+          <span class="result-tag">عبر آجل باي</span>
+          <h3>إجمالي قيمة الطلب</h3>
+          <p class="price" id="ajel-result">0 ر.س</p>
+          <p class="result-note"><span id="installment-count">4</span> دفعات، قيمة الدفعة الواحدة <strong id="installment-result">0 ر.س</strong></p>
+        </article>
+      </div>
+
+      <div class="difference-card">
+        <div>
+          <span>فرق القيمة بين الخيارين</span>
+          <strong id="difference-result">0 ر.س</strong>
+        </div>
+        <p id="formula-note">تم احتساب عمولة آجل باي بنسبة 20% من إجمالي قيمة آجل باي.</p>
+      </div>
+    </section>
+
+    <section class="how-it-works" id="about">
+      <div class="section-heading">
+        <span class="eyebrow">كيف تعمل الحاسبة؟</span>
+        <h2>ثلاث خطوات لاتخاذ قرار أوضح</h2>
+      </div>
+      <div class="steps">
+        <article><span>1</span><h3>أدخل السعر</h3><p>اكتب قيمة المنتج عند السداد المباشر.</p></article>
+        <article><span>2</span><h3>راجع الإعدادات</h3><p>حدد نسبة عمولة آجل باي وعدد الدفعات المناسبة.</p></article>
+        <article><span>3</span><h3>قارن النتيجة</h3><p>شاهد الإجمالي والفرق وقيمة كل دفعة.</p></article>
+      </div>
+    </section>
+
+    <section class="disclaimer">
+      <strong>تنبيه مهم</strong>
+      <p>هذه الحاسبة أداة توضيحية وتقدم نتيجة تقديرية بناءً على القيم المدخلة. السعر النهائي وشروط السداد تعتمد على عرض السعر والاتفاق المعتمد عند تنفيذ الطلب.</p>
+    </section>
+
+    <section class="contact-section">
+      <div>
+        <span class="eyebrow">فكرة تتحول إلى أداة</span>
+        <h2>هل لديك وظيفة أو مشروع يمكنني المساهمة فيه؟</h2>
+        <p>أنا عبدالله الصقير، متخصص في التسويق الإلكتروني وإدارة المتاجر والأعمال الإدارية، وأعمل على تطوير مهاراتي في بناء الحلول الرقمية العملية.</p>
+      </div>
+      <a href="https://www.linkedin.com/in/alseger11/" target="_blank" rel="noopener noreferrer">تواصل معي عبر LinkedIn</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>مشروع تطبيقي بواسطة عبدالله الصقير</p>
+    <p>© <span id="year"></span> جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
