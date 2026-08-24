@@ -1,51 +1,11 @@
-const form = document.querySelector('#calculator-form');
-const cashPriceInput = document.querySelector('#cash-price');
-const markupInput = document.querySelector('#markup-rate');
-const installmentsInput = document.querySelector('#installments');
-const results = document.querySelector('#results');
-const errorMessage = document.querySelector('#form-error');
-
-const formatSar = (value) => new Intl.NumberFormat('ar-SA', {
-  style: 'currency',
-  currency: 'SAR',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2
-}).format(value);
-
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const cashPrice = Number(cashPriceInput.value);
-  const markupRate = Number(markupInput.value);
-  const installments = Number(installmentsInput.value);
-
-  if (!Number.isFinite(cashPrice) || cashPrice <= 0) {
-    errorMessage.textContent = 'يرجى إدخال سعر منتج أكبر من صفر.';
-    cashPriceInput.focus();
-    return;
-  }
-
-  if (!Number.isFinite(markupRate) || markupRate < 0 || markupRate >= 100) {
-    errorMessage.textContent = 'يرجى إدخال نسبة عمولة صحيحة من 0 إلى أقل من 100.';
-    markupInput.focus();
-    return;
-  }
-
-  errorMessage.textContent = '';
-  const commissionRate = markupRate / 100;
-  const ajelTotal = cashPrice / (1 - commissionRate);
-  const difference = ajelTotal - cashPrice;
-  const installmentValue = ajelTotal / installments;
-
-  document.querySelector('#cash-result').textContent = formatSar(cashPrice);
-  document.querySelector('#ajel-result').textContent = formatSar(ajelTotal);
-  document.querySelector('#difference-result').textContent = formatSar(difference);
-  document.querySelector('#installment-result').textContent = formatSar(installmentValue);
-  document.querySelector('#installment-count').textContent = installments.toLocaleString('ar-SA');
-  document.querySelector('#formula-note').textContent = `تم احتساب عمولة آجل باي بنسبة ${markupRate.toLocaleString('ar-SA')}% من إجمالي قيمة آجل باي.`;
-
-  results.hidden = false;
-  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
-document.querySelector('#year').textContent = new Date().getFullYear().toLocaleString('ar-SA', { useGrouping: false });
+const RATE=.2,$=s=>document.querySelector(s),form=$('#calculator-form'),input=$('#cash-price'),results=$('#results'),error=$('#form-error'),feedback=$('#feedback');let latest=null;
+const normalize=v=>v.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٬,\s]/g,'').replace('٫','.');
+const sar=v=>new Intl.NumberFormat('ar-SA',{style:'currency',currency:'SAR',minimumFractionDigits:2,maximumFractionDigits:2}).format(v);
+document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-n]').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#installments').value=b.dataset.n});
+form.onsubmit=e=>{e.preventDefault();const cash=Number(normalize(input.value.trim())),n=Number($('#installments').value);if(!Number.isFinite(cash)||cash<=0){error.textContent='يرجى إدخال قيمة صحيحة أكبر من صفر.';input.focus();return}error.textContent='';const total=cash/(1-RATE),diff=total-cash,part=total/n;latest={cash,total,diff,n,part};$('#cash-result').textContent=sar(cash);$('#ajel-result').textContent=sar(total);$('#difference-result').textContent=sar(diff);$('#installment-result').textContent=sar(part);$('#installment-count').textContent=n.toLocaleString('ar-SA');results.hidden=false;results.scrollIntoView({behavior:'smooth'})};
+const text=()=>`نتيجة حاسبة آجل باي:\nالسداد الكامل: ${sar(latest.cash)}\nإجمالي آجل باي: ${sar(latest.total)}\nفرق القيمة: ${sar(latest.diff)}\n${latest.n} دفعات × ${sar(latest.part)}\n\nالنتيجة تقريبية وتخضع لشروط مزود خدمة الدفع.`;
+$('#copy-result').onclick=async()=>{if(!latest)return;try{await navigator.clipboard.writeText(text());feedback.textContent='تم نسخ النتيجة.'}catch{feedback.textContent='تعذر النسخ التلقائي.'}};
+$('#share-result').onclick=()=>latest&&window.open(`https://wa.me/?text=${encodeURIComponent(text())}`,'_blank','noopener');
+$('#reset').onclick=()=>{form.reset();$('#installments').value='4';document.querySelectorAll('[data-n]').forEach(x=>x.classList.toggle('active',x.dataset.n==='4'));results.hidden=true;latest=null;feedback.textContent='';input.focus();$('#calculator').scrollIntoView({behavior:'smooth'})};
+$('#copy-code').onclick=async e=>{try{await navigator.clipboard.writeText('14134349910');e.currentTarget.textContent='تم النسخ ✓';setTimeout(()=>e.currentTarget.textContent='14134349910',1800)}catch{}};
+$('#year').textContent=new Date().getFullYear().toLocaleString('ar-SA',{useGrouping:false});
